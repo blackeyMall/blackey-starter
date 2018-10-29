@@ -1,0 +1,13 @@
+#Built path
+target/
+
+#Compiled class file
+*.class
+
+#About IntelliJ
+*.iml
+.idea/
+out/
+
+#Log files
+*.log
