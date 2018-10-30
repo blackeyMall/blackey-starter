@@ -25,6 +25,7 @@
         <mybatisplus-springboot.version>1.0.5</mybatisplus-springboot.version>
         <mybatisplus.version>3.0.5</mybatisplus.version>
         <hutool.version>4.0.10</hutool.version>
+        <lombok.version>1.18.2</lombok.version>
 
     </properties>
 
@@ -55,6 +56,12 @@
                 <artifactId>hutool-all</artifactId>
                 <version>${hutool.version}</version>
             </dependency>
+            <dependency>
+                <groupId>org.projectlombok</groupId>
+                <artifactId>lombok</artifactId>
+                <version>${lombok.version}</version>
+            </dependency>
+
         </dependencies>
     </dependencyManagement>
 
