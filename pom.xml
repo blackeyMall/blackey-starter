@@ -8,7 +8,10 @@
     <artifactId>blackey-boot-starters</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
     <modules>
+        <module>spring-boot-starter-blackey-common</module>
         <module>spring-boot-starter-blackey-jpa</module>
+        <module>spring-boot-starter-blackey-mybatis</module>
+        <module>spring-boot-starter-blackey-redis</module>
     </modules>
     <packaging>pom</packaging>
     <description>自定义spring boot starter</description>
@@ -18,6 +21,11 @@
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
         <spring-boot.version>1.5.12.RELEASE</spring-boot.version>
+
+        <mybatisplus-springboot.version>1.0.5</mybatisplus-springboot.version>
+        <mybatisplus.version>3.0.5</mybatisplus.version>
+        <hutool.version>4.0.10</hutool.version>
+
     </properties>
 
     <dependencyManagement>
@@ -28,6 +36,24 @@
                 <version>${spring-boot.version}</version>
                 <type>pom</type>
                 <scope>import</scope>
+            </dependency>
+
+
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatisplus-spring-boot-starter</artifactId>
+                <version>${mybatisplus-springboot.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.baomidou</groupId>
+                <artifactId>mybatis-plus</artifactId>
+                <version>${mybatisplus.version}</version>
+            </dependency>
+
+            <dependency>
+                <groupId>cn.hutool</groupId>
+                <artifactId>hutool-all</artifactId>
+                <version>${hutool.version}</version>
             </dependency>
         </dependencies>
     </dependencyManagement>
