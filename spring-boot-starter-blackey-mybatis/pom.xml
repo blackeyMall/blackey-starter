@@ -14,6 +14,11 @@
 
     <dependencies>
         <dependency>
+            <groupId>com.blackey.starter</groupId>
+            <artifactId>spring-boot-starter-blackey-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
             <groupId>com.baomidou</groupId>
             <artifactId>mybatisplus-spring-boot-starter</artifactId>
         </dependency>
