@@ -19,7 +19,7 @@ import java.util.List;
  */
 public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseService<M> {
 
-    abstract BaseRepository<M> getRepo();
+    protected abstract BaseRepository<M> getRepo();
 
 
     @Override
