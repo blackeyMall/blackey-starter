@@ -1,5 +1,6 @@
 package com.blackey.jpa.common;
 
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
 import java.io.Serializable;
@@ -67,6 +68,15 @@ public abstract class BaseSearch<T> implements Serializable, Search<T> {
         return new Sort(Sort.Direction.DESC, "timeCreated");
     }
 
+    @Override
+    public PageRequest getPage(Integer paramInteger) {
+        return new PageRequest(this.start, size, getSort());
+    }
+
+    @Override
+    public PageRequest getPage() {
+        return new PageRequest(this.start, this.size, getSort());
+    }
 
     public SortBy getSortby() {
         return this.sortby;
