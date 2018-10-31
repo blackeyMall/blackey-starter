@@ -10,11 +10,13 @@ import org.springframework.data.domain.Persistable;
 public abstract class PkModel<PK extends Serializable> implements Persistable<PK> {
 	private static final long serialVersionUID = -715456645278100196L;
 
-	public abstract PK getId();
+	@Override
+    public abstract PK getId();
 
 	public abstract void setId(PK paramPK);
 
-	public boolean isNew() {
+	@Override
+    public boolean isNew() {
 		return (null == getId());
 	}
 }

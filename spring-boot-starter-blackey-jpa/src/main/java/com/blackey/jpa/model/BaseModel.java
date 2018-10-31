@@ -8,13 +8,13 @@ import javax.persistence.*;
 /**
  * 基类 baseModel
  *
- * @autor wangwei
- * @date: 2018/10/29
+ * @author  wangwei
+ * @date  2018/10/29
  */
 public class BaseModel extends PkModel<String> {
 
     private static final long serialVersionUID = -715456645278100196L;
-    protected static final int pk_length = 36;
+    private static final int pk_length = 36;
 
     @Id
     @GeneratedValue(generator = "system-uuid")
@@ -32,10 +32,12 @@ public class BaseModel extends PkModel<String> {
     @Type(type = "org.hibernate.type.NumericBooleanType")
     private Boolean deleted;
 
+    @Override
     public String getId() {
         return this.id;
     }
 
+    @Override
     public void setId(String id) {
         this.id = id;
     }
@@ -64,6 +66,7 @@ public class BaseModel extends PkModel<String> {
         this.deleted = deleted;
     }
 
+    @Override
     public boolean equals(Object obj) {
         if (null == obj) {
             return false;
@@ -79,9 +82,10 @@ public class BaseModel extends PkModel<String> {
 
         PkModel<?> that = (PkModel<?>) obj;
 
-        return ((null == getId()) ? false : getId().equals(that.getId()));
+        return ((null != getId()) && getId().equals(that.getId()));
     }
 
+    @Override
     public int hashCode() {
         int hashCode = 17;
 
@@ -92,13 +96,13 @@ public class BaseModel extends PkModel<String> {
 
     @PrePersist
     void onCreate() {
-        setTimeCreated(Long.valueOf(System.currentTimeMillis()));
-        setTimeModified(Long.valueOf(System.currentTimeMillis()));
-        setDeleted(Boolean.valueOf(false));
+        setTimeCreated(System.currentTimeMillis());
+        setTimeModified(System.currentTimeMillis());
+        setDeleted(Boolean.FALSE);
     }
 
     @PreUpdate
     void onPersist() {
-        setTimeModified(Long.valueOf(System.currentTimeMillis()));
+        setTimeModified(System.currentTimeMillis());
     }
 }
