@@ -1,4 +1,4 @@
-package com.blackey.result;
+package com.blackey.common.result;
 
 /**
  * 返回值

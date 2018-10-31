@@ -1,4 +1,4 @@
-package com.blackey.result;
+package com.blackey.common.result;
 
 import java.io.Serializable;
 
