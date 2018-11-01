@@ -1,4 +1,3 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
   com.blackey.common.config.AopAutoConfiguration,\
-  com.blackey.common.config.ValidateAutoConfiguration,\
   com.blackey.common.handler.GlobalExceptionHandler
