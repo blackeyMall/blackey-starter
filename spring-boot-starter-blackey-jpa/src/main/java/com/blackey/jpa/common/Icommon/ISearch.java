@@ -1,4 +1,4 @@
-package com.blackey.jpa.common;
+package com.blackey.jpa.common.Icommon;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
@@ -10,7 +10,7 @@ import org.springframework.data.jpa.domain.Specification;
  * @author blackey
  * @date 2018/10/30
  */
-public interface Search<T> {
+public interface ISearch<T> {
 
     /**
      * 获取查询组装对象

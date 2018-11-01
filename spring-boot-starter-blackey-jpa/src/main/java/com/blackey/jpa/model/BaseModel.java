@@ -11,6 +11,7 @@ import javax.persistence.*;
  * @author  wangwei
  * @date  2018/10/29
  */
+@MappedSuperclass
 public class BaseModel extends PkModel<String> {
 
     private static final long serialVersionUID = -715456645278100196L;

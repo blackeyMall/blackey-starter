@@ -1,5 +1,6 @@
 package com.blackey.jpa.common;
 
+import com.blackey.jpa.common.Icommon.ISearch;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 
@@ -11,7 +12,7 @@ import java.io.Serializable;
  * @author blackey
  * @date 2018/10/30
  */
-public abstract class BaseSearch<T> implements Serializable, Search<T> {
+public abstract class BaseSearch<T> implements Serializable, ISearch<T> {
 
     private static final long serialVersionUID = 7954737573502075242L;
     protected int start;

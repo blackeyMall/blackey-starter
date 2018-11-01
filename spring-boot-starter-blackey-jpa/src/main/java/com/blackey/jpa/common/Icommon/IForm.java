@@ -1,4 +1,4 @@
-package com.blackey.jpa.common;
+package com.blackey.jpa.common.Icommon;
 
 import java.lang.reflect.ParameterizedType;
 
@@ -8,7 +8,7 @@ import java.lang.reflect.ParameterizedType;
  * @author blackey
  * @date 2018/10/30
  */
-public interface Form<T> {
+public interface IForm<T> {
 
 
     /**

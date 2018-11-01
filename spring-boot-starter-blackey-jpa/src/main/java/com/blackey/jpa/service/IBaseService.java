@@ -1,7 +1,7 @@
 package com.blackey.jpa.service;
 
-import com.blackey.jpa.common.Form;
-import com.blackey.jpa.common.Search;
+import com.blackey.jpa.common.Icommon.IForm;
+import com.blackey.jpa.common.Icommon.ISearch;
 import com.blackey.jpa.model.BaseModel;
 import org.springframework.data.domain.Page;
 
@@ -26,17 +26,17 @@ public interface IBaseService<Model extends BaseModel> {
 
     /**
      * 分页查询
-     * @param paramSearch
+     * @param paramISearch
      * @return
      */
-    Page<Model> pageList(Search<Model> paramSearch);
+    Page<Model> pageList(ISearch<Model> paramISearch);
 
     /**
      * 列表查询
-     * @param paramSearch
+     * @param paramISearch
      * @return
      */
-    List<Model> list(Search<Model> paramSearch);
+    List<Model> list(ISearch<Model> paramISearch);
 
     /**
      * 单条查询
@@ -48,19 +48,19 @@ public interface IBaseService<Model extends BaseModel> {
 
     /**
      * 加载并copy实体对象
-     * @param paramForm
+     * @param paramIForm
      * @param entity
      * @return
      */
-    Model loadWithCopy(Form<Model> paramForm, Model entity);
+    Model loadWithCopy(IForm<Model> paramIForm, Model entity);
 
     /**
      * 保存form 对象
-     * @param paramForm
+     * @param paramIForm
      * @param entity
      * @return
      */
-    Model saveForm(Form<Model> paramForm, Model entity);
+    Model saveForm(IForm<Model> paramIForm, Model entity);
 
     /**
      * 保存entity对象
@@ -72,11 +72,11 @@ public interface IBaseService<Model extends BaseModel> {
 
     /**
      * 保存form 对象
-     * @param paramForm
+     * @param paramIForm
      * @return
      * @throws Exception
      */
-    Model saveForm(Form<Model> paramForm)
+    Model saveForm(IForm<Model> paramIForm)
             throws Exception;
 
     /**
