@@ -40,8 +40,9 @@ public class RedisAutoConfiguration extends CachingConfigurerSupport{
     private String serializerName;
 
     @Bean
-    public CacheManager cacheManager(RedisTemplate redisTemplate) {
-        return new RedisCacheManager(redisTemplate);
+    public CacheManager cacheManager(RedisConnectionFactory factory) {
+        RedisCacheManager cacheManager = RedisCacheManager.create(factory);
+        return cacheManager;
     }
 
     @Bean("redisService")

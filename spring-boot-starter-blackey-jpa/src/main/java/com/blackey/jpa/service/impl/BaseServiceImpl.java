@@ -38,7 +38,7 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
             return null;
         }
 
-        return getRepo().findOne(id);
+        return getRepo().getOne(id);
     }
 
     @Override
