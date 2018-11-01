@@ -12,4 +12,34 @@
     <artifactId>spring-boot-starter-blackey-redis</artifactId>
 
 
+    <dependencies>
+        <dependency>
+            <groupId>com.blackey.starter</groupId>
+            <artifactId>spring-boot-starter-blackey-common</artifactId>
+            <version>1.0.0-SNAPSHOT</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-data-redis</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-core</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>io.protostuff</groupId>
+            <artifactId>protostuff-runtime</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>com.esotericsoftware</groupId>
+            <artifactId>kryo</artifactId>
+        </dependency>
+        <dependency>
+            <groupId>biz.paluch.redis</groupId>
+            <artifactId>lettuce</artifactId>
+            <version>4.2.2.Fianl</version>
+        </dependency>
+    </dependencies>
+
+
 </project>
