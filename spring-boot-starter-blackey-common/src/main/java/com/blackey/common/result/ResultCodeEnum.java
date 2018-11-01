@@ -31,6 +31,10 @@ public enum ResultCodeEnum implements ResultCode {
      * 系统异常的返回值
      */
     SYSTEM_ERROR(500, "系统异常，请稍后再试！"),
+    /**
+     *系统超时
+     */
+    SYSTEM_TIMEOUT(504,"系统超时，请重试！"),
     
     /**
      * session超时的返回值
