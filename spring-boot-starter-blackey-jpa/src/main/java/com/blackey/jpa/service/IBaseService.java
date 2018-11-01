@@ -5,6 +5,7 @@ import com.blackey.jpa.common.Icommon.ISearch;
 import com.blackey.jpa.model.BaseModel;
 import org.springframework.data.domain.Page;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.List;
 
 /**
@@ -43,7 +44,7 @@ public interface IBaseService<Model extends BaseModel> {
      * @param id
      * @return
      */
-    Model detail(String id);
+    Model detail(String id)throws EntityNotFoundException;
 
 
     /**

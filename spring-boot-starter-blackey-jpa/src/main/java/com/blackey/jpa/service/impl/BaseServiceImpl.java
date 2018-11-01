@@ -5,9 +5,11 @@ import com.blackey.jpa.common.Icommon.ISearch;
 import com.blackey.jpa.model.BaseModel;
 import com.blackey.jpa.repo.BaseRepository;
 import com.blackey.jpa.service.IBaseService;
+import org.springframework.data.domain.Example;
 import org.springframework.data.domain.Page;
 import org.springframework.util.StringUtils;
 
+import javax.persistence.EntityNotFoundException;
 import java.util.Arrays;
 import java.util.List;
 
@@ -33,12 +35,8 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
     }
 
     @Override
-    public M detail(String id){
-        if (StringUtils.isEmpty(id)){
-            return null;
-        }
-
-        return getRepo().getOne(id);
+    public M detail(String id) throws EntityNotFoundException{
+        return StringUtils.isEmpty(id) ? null : this.getRepo().getOne(id);
     }
 
     @Override
