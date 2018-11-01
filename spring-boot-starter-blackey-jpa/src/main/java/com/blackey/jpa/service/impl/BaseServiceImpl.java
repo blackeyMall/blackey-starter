@@ -1,7 +1,7 @@
 package com.blackey.jpa.service.impl;
 
-import com.blackey.jpa.common.Form;
-import com.blackey.jpa.common.Search;
+import com.blackey.jpa.common.Icommon.IForm;
+import com.blackey.jpa.common.Icommon.ISearch;
 import com.blackey.jpa.model.BaseModel;
 import com.blackey.jpa.repo.BaseRepository;
 import com.blackey.jpa.service.IBaseService;
@@ -23,13 +23,13 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
 
 
     @Override
-    public Page<M> pageList(Search<M> iSearch) {
-        return getRepo().findAll(iSearch.getSpecification(), iSearch.getPage());
+    public Page<M> pageList(ISearch<M> iISearch) {
+        return getRepo().findAll(iISearch.getSpecification(), iISearch.getPage());
     }
 
     @Override
-    public List<M> list(Search<M> iSearch) {
-        return getRepo().findAll(iSearch.getSpecification(),iSearch.getSort());
+    public List<M> list(ISearch<M> iISearch) {
+        return getRepo().findAll(iISearch.getSpecification(), iISearch.getSort());
     }
 
     @Override
@@ -42,17 +42,17 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
     }
 
     @Override
-    public M loadWithCopy(Form<M> paramForm, M entity) {
+    public M loadWithCopy(IForm<M> paramIForm, M entity) {
 
-        if(paramForm.getId() == null){
+        if(paramIForm.getId() == null){
 
-            paramForm.toModel(entity, Boolean.FALSE);
+            paramIForm.toModel(entity, Boolean.FALSE);
         } else {
 
-          entity = detail(paramForm.getId());
-          paramForm.toModel(entity,Boolean.TRUE);
+          entity = detail(paramIForm.getId());
+          paramIForm.toModel(entity,Boolean.TRUE);
 
-          if (paramForm.isUpdateTimeModified()){
+          if (paramIForm.isUpdateTimeModified()){
               entity.setTimeModified(System.currentTimeMillis());
           }
         }
@@ -61,8 +61,8 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
     }
 
     @Override
-    public M saveForm(Form<M> paramForm, M entity) {
-        return save(loadWithCopy(paramForm,entity));
+    public M saveForm(IForm<M> paramIForm, M entity) {
+        return save(loadWithCopy(paramIForm,entity));
     }
 
     @Override
@@ -71,9 +71,9 @@ public abstract class BaseServiceImpl<M extends BaseModel> implements IBaseServi
     }
 
     @Override
-    public M saveForm(Form<M> paramForm) throws Exception {
+    public M saveForm(IForm<M> paramIForm) throws Exception {
 
-        return saveForm(paramForm, createBean().newInstance());
+        return saveForm(paramIForm, createBean().newInstance());
     }
 
     @Override

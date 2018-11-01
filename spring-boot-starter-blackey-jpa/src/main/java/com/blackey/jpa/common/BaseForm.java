@@ -1,18 +1,20 @@
 package com.blackey.jpa.common;
 
+import cn.hutool.core.bean.BeanUtil;
+import cn.hutool.core.bean.copier.CopyOptions;
+import com.blackey.jpa.common.Icommon.IForm;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.commons.lang3.exception.ExceptionUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-import org.springframework.beans.BeanUtils;
 
 /**
- * TODO
+ * 入参
  *
  * @author blackey
  * @date 2018/10/30
  */
-public abstract class BaseForm<T> implements Form<T> {
+public abstract class BaseForm<T> implements IForm<T> {
 
     private Logger log;
     private String id;
@@ -24,6 +26,10 @@ public abstract class BaseForm<T> implements Form<T> {
         this.updateTimeModified = false;
     }
 
+    /**
+     * 处理bean对象
+     * @param paramT
+     */
     protected abstract void processBean(T paramT);
 
     @Override
@@ -58,10 +64,9 @@ public abstract class BaseForm<T> implements Form<T> {
         this.log.debug("From Model [{}] content [{}]", super.getClass().getName(), super.toString());
         try {
             if (nullAware) {
-                //todo 空值不拷贝
-//                Beans.copyNullAware(this, to);
+                BeanUtil.copyProperties(this,to,new CopyOptions().setIgnoreCase(true));
             } else {
-                BeanUtils.copyProperties(this, to);
+                BeanUtil.copyProperties(this, to);
             }
 
             processBean(to);
