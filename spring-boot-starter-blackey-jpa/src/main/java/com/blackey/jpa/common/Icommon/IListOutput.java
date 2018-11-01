@@ -17,54 +17,54 @@ import java.util.List;
  * @author blackey
  * @date 2018/11/1
  */
-public interface IListOutput<From, To extends BaseBo<From>> {
+public interface IListOutput<Model, Bo extends BaseBo<Model>> {
 
     @SuppressWarnings("unchecked")
-    default To createBeanInstance() throws InstantiationException, IllegalAccessException {
+    default Bo createBeanInstance() throws InstantiationException, IllegalAccessException {
         return createBean().newInstance();
     }
 
     @SuppressWarnings("unchecked")
-    default Class<To> createBean() {
-        return ((Class<To>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1]);
+    default Class<Bo> createBean() {
+        return ((Class<Bo>) ((ParameterizedType) getClass().getGenericSuperclass()).getActualTypeArguments()[1]);
     }
 
     @SuppressWarnings("unchecked")
-    default List<To> fromModel(List<From> fromList) throws Exception {
+    default List<Bo> fromModel(List<Model> fromList) throws Exception {
         if (fromList == null) {
             return Lists.newArrayList();
         }
-        List<To> toItems = new ArrayList<>();
+        List<Bo> toItems = new ArrayList<>();
 
-        Class<To> toClazz = createBean();
+        Class<Bo> toClazz = createBean();
 
-        for (Iterator<From> localIterator = fromList.iterator(); localIterator.hasNext();) {
+        for (Iterator<Model> localIterator = fromList.iterator(); localIterator.hasNext();) {
             Object from = localIterator.next();
-            BaseBo<From> to = toClazz.newInstance();
-            to.fromModel((From) from);
-            toItems.add((To) to);
+            BaseBo<Model> to = toClazz.newInstance();
+            to.fromModel((Model) from);
+            toItems.add((Bo) to);
         }
 
         return toItems;
     }
 
     @SuppressWarnings("unchecked")
-    default List<To> fromModel(List<From> fromList, To to) throws Exception {
-        List<To> toItems = new ArrayList<>();
+    default List<Bo> fromModel(List<Model> fromList, Bo to) throws Exception {
+        List<Bo> toItems = new ArrayList<>();
 
         if (fromList == null) {
             return toItems;
         }
 
-        Class<To> toClazz = createBean();
+        Class<Bo> toClazz = createBean();
 
-        for (Iterator<From> localIterator = fromList.iterator(); localIterator.hasNext();) {
+        for (Iterator<Model> localIterator = fromList.iterator(); localIterator.hasNext();) {
             Object from = localIterator.next();
-            BaseBo<To> newTo = (BaseBo<To>) toClazz.newInstance();
-            BeanUtil.copyProperties(to,newTo);
+            BaseBo<Bo> newBo = (BaseBo<Bo>) toClazz.newInstance();
+            BeanUtil.copyProperties(to,newBo);
 
-            newTo.fromModel((To) from);
-            toItems.add((To) newTo);
+            newBo.fromModel((Bo) from);
+            toItems.add((Bo) newBo);
         }
 
         return toItems;

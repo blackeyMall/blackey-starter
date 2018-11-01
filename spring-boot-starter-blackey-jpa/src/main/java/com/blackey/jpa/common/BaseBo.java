@@ -19,7 +19,7 @@ public abstract class BaseBo<T> {
 
     protected abstract void processBean(T paramT);
 
-    protected void fromModel(T from) {
+    public void fromModel(T from) {
         this.log.debug("From Model [{}] content [{}]", from.getClass().getName(), from.toString());
         try {
             BeanUtils.copyProperties(from, this);
