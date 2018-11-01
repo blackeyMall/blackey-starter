@@ -37,7 +37,7 @@
         <dependency>
             <groupId>biz.paluch.redis</groupId>
             <artifactId>lettuce</artifactId>
-            <version>4.2.2.Fianl</version>
+            <version>4.2.2.Final</version>
         </dependency>
     </dependencies>
 
