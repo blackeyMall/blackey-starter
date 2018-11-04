@@ -127,8 +127,8 @@ public class RequestLogAop {
                     !(obj instanceof HttpServletResponse) && !(obj instanceof MultipartFile)
                     && !(obj instanceof BeanPropertyBindingResult))
                     .forEach(obj -> {
-                        Object jsonObj = JSON.toJSON(obj);
-                        params.append(DesensitizedUtils.getJson(jsonObj)).append("|");
+                        //Object jsonObj = JSON.toJSON(obj);
+                        params.append(DesensitizedUtils.getJson(obj)).append("|");
                     });
         }
         return  params.toString();
