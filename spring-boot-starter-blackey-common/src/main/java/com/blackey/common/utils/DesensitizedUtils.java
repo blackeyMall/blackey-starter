@@ -1,5 +1,6 @@
 package com.blackey.common.utils;
 
+import cn.hutool.core.util.ObjectUtil;
 import com.alibaba.fastjson.JSON;
 import com.alibaba.fastjson.serializer.SerializerFeature;
 import com.blackey.common.annotation.Desensitized;
@@ -33,7 +34,7 @@ public class DesensitizedUtils {
                 /* 克隆出一个实体进行字段修改，避免修改原实体 */
                 //Object clone =ObjectUtils.deepCloneObject(javaBean);
                 //Object clone =ObjectUtils.deepCloneByFastJson(javaBean);
-                Object clone = ObjectUtils.deepClone(javaBean);
+                Object clone = ObjectUtil.clone(javaBean);
 
                 /* 定义一个计数器，用于避免重复循环自定义对象类型的字段 */
                 Set<Integer> referenceCounter = new HashSet<Integer>();
@@ -46,7 +47,6 @@ public class DesensitizedUtils {
 
                 /* 清空计数器 */
                 referenceCounter.clear();
-                referenceCounter = null;
             } catch (Throwable e) {
                 e.printStackTrace();
             }
@@ -63,7 +63,7 @@ public class DesensitizedUtils {
      * @throws IllegalArgumentException
      * @throws IllegalAccessException
      */
-    private static void replace(Field[] fields, Object javaBean, Set<Integer> referenceCounter) throws IllegalArgumentException, IllegalAccessException {
+    public static void replace(Field[] fields, Object javaBean, Set<Integer> referenceCounter) throws IllegalArgumentException, IllegalAccessException {
         if (null != fields && fields.length > 0) {
             for (Field field : fields) {
                 field.setAccessible(true);

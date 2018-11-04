@@ -1,6 +1,7 @@
 package com.blackey.common.aop;
 
 import cn.hutool.core.util.NetUtil;
+import com.alibaba.fastjson.JSON;
 import com.blackey.common.result.Result;
 import com.blackey.common.utils.DesensitizedUtils;
 import org.apache.commons.lang3.StringUtils;
@@ -9,17 +10,16 @@ import org.aspectj.lang.annotation.AfterReturning;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
-import org.aspectj.lang.reflect.MethodSignature;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.lang.reflect.Method;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -66,33 +66,19 @@ public class RequestLogAop {
         LOGGER.info("IP : " +  NetUtil.getIpByHost(NetUtil.getLocalhostStr()));
         LOGGER.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
 
-        // 获得切入的方法
-        Method httpMethod = ((MethodSignature)joinPoint.getSignature()).getMethod();
-        String[] parameterNames = parameterNameDiscoverer.getParameterNames(httpMethod);
-        Map<String,Object> map = new HashMap<>();
+        String paramStr;
+        if ("POST".equalsIgnoreCase(method)){
+            Object[] paramsArray = joinPoint.getArgs();
+            paramStr = argsArrayToString(paramsArray);
 
-        for (int i=0;i<parameterNames.length;i++){
-            Object object = joinPoint.getArgs()[i];
-            //排除
-            if((object instanceof HttpServletRequest)
-                    || (object instanceof HttpServletResponse)
-                    || (object instanceof MultipartFile)){
-                continue;
-            }
-
-
-            //基本类型、string、枚举,直接保存在map中
-            if(isJDKType(object.getClass()) || (object instanceof String) ||
-                    (object.getClass().isPrimitive()) ||
-                    (object.getClass().isEnum())){
-                map.put(parameterNames[i],object);
-            }else {//用户自定义对象,map,集合
-                String s = DesensitizedUtils.getJson(object);
-                map.put(parameterNames[i],s);
-                LOGGER.info("Desensitized REQUEST ARGS : " + parameterNames[i]+":"+s);
-            }
+        }else {
+            Map<String,String> returnMap = new HashMap<>();
+            String getParams = request.getQueryString();
+            paramStr = JSON.toJSONString(parseJson(returnMap,getParams));
         }
-        LOGGER.info("REQUEST ARGS ---: " + map.toString());
+
+
+        LOGGER.info("REQUEST ARGS ---: " + paramStr);
 
     }
 
@@ -101,7 +87,11 @@ public class RequestLogAop {
         // 处理完请求，返回内容
         if(null != ret){
             if(ret instanceof Result){
-                LOGGER.info("RESPONSE ARGS : " + DesensitizedUtils.getJson(ret));
+                if(null == ((Result) ret).getData()){
+                    LOGGER.info("RESPONSE ARGS : " + JSON.toJSONString(ret));
+                }else {
+                    LOGGER.info("RESPONSE ARGS : " + DesensitizedUtils.getJson(ret));
+                }
             }
         }else{
             LOGGER.info("RESPONSE : " + null);
@@ -123,6 +113,43 @@ public class RequestLogAop {
                 || StringUtils.startsWith(clazz.getPackage().getName(), "java.")
                 || StringUtils.startsWith(clazz.getName(), "javax.")
                 || StringUtils.startsWith(clazz.getName(), "java."));
+    }
+
+    /**
+     * POST 请求对象转json
+     * @param paramsArray
+     * @return
+     */
+    private String argsArrayToString(Object[] paramsArray){
+        StringBuilder params = new StringBuilder();
+        if (paramsArray !=null && paramsArray.length >0 ){
+            Arrays.stream(paramsArray).filter(obj -> !(obj instanceof HttpServletRequest) &&
+                    !(obj instanceof HttpServletResponse) && !(obj instanceof MultipartFile)
+                    && !(obj instanceof BeanPropertyBindingResult))
+                    .forEach(obj -> {
+                        Object jsonObj = JSON.toJSON(obj);
+                        params.append(DesensitizedUtils.getJson(jsonObj)).append("|");
+                    });
+        }
+        return  params.toString();
+    }
+
+    /**
+     * get 请求，将key=value&key=value转换为map
+     * @param returnMap
+     * @param getParams
+     * @return
+     */
+    private Map<String,String> parseJson(Map<String,String> returnMap,String getParams){
+        if(StringUtils.isBlank(getParams)){
+            return null;
+        }
+        Arrays.stream(getParams.split("&"))
+                .filter(kv -> kv.contains("="))
+                .map(kv -> kv.split("="))
+                .filter(array -> array.length > 1)
+                .forEach(array -> returnMap.put(array[0],array[1]));
+        return returnMap;
     }
 
 }

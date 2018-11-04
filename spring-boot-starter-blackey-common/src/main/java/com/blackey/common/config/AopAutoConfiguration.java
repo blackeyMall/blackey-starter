@@ -21,14 +21,14 @@ public class AopAutoConfiguration {
     @Bean
     @ConditionalOnProperty(value = {"spring.validaop.enabled"},matchIfMissing = true)
     public ValidateParamAop getValidateParamAop(){
-        LOGGER.info("init ValidateParamAop {0} ",ValidateParamAop.class);
+        LOGGER.info("----init ValidateParamAop-------");
         return new ValidateParamAop();
     }
 
     @Bean
     @ConditionalOnProperty(value = {"spring.logaop.enabled"},matchIfMissing = true)
     public RequestLogAop getRequestLogAop(){
-        LOGGER.info("init RequestLogAop {0} ",RequestLogAop.class);
+        LOGGER.info("-----------init RequestLogAop------");
         return new RequestLogAop();
     }
 }
