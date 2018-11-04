@@ -23,11 +23,11 @@ public abstract class BaseModel<T extends Model> extends Model<T> {
     @TableLogic
     private Integer isDeleted;
 
-    private Date createDate;
+    private Date createdDate;
 
-    private Date updateDate;
+    private Date updatedDate;
 
-    private String createBy;
+    private String createdBy;
 
-    private String updateBy;
+    private String updatedBy;
 }
