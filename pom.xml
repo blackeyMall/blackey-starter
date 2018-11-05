@@ -13,6 +13,7 @@
         <module>spring-boot-starter-blackey-jpa</module>
         <module>spring-boot-starter-blackey-mybatis</module>
         <module>spring-boot-starter-blackey-redis</module>
+        <module>spring-boot-starter-blackey-wx</module>
     </modules>
     <packaging>pom</packaging>
     <description>自定义spring boot starter</description>
@@ -44,6 +45,7 @@
         <protostuff.version>1.5.3</protostuff.version>
         <kryo.version>4.0.0</kryo.version>
         <disruptor.version>3.3.7</disruptor.version>
+        <wx.version>3.2.0</wx.version>
 
     </properties>
 
@@ -129,6 +131,35 @@
                 <artifactId>gson</artifactId>
                 <version>${gson.version}</version>
             </dependency>
+
+            <!-- wx binary wang -->
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-miniapp</artifactId>
+                <version>${wx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-pay</artifactId>
+                <version>${wx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-open</artifactId>
+                <version>${wx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-mp</artifactId>
+                <version>${wx.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.github.binarywang</groupId>
+                <artifactId>weixin-java-cp</artifactId>
+                <version>${wx.version}</version>
+            </dependency>
+
+
 
             <!-- POI -->
             <dependency>
