@@ -1,5 +1,7 @@
 package com.blackey.common.result;
 
+import cn.hutool.core.clone.CloneSupport;
+
 import java.io.Serializable;
 
 /**
@@ -8,7 +10,7 @@ import java.io.Serializable;
  * @author blackey
  * @date 2018/10/30
  */
-public class Result<T> implements Serializable{
+public class Result<T> extends CloneSupport<Result<T>> implements Serializable{
 
     private static final long serialVersionUID = 617719137957422232L;
     private int code;
