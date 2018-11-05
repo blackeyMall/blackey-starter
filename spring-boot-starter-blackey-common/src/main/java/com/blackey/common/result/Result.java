@@ -15,6 +15,9 @@ public class Result<T> implements Serializable{
     private String message;
     private T data;
 
+    public Result() {
+    }
+
     public Result(int code) {
         this.code = code;
     }
