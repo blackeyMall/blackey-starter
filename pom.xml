@@ -46,7 +46,7 @@
         <kryo.version>4.0.0</kryo.version>
         <disruptor.version>3.3.7</disruptor.version>
         <wx.version>3.2.0</wx.version>
-
+        <bouncycastle.version>140</bouncycastle.version>
     </properties>
 
     <dependencyManagement>
@@ -198,6 +198,11 @@
                 <groupId>com.lmax</groupId>
                 <artifactId>disruptor</artifactId>
                 <version>${disruptor.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>bouncycastle</groupId>
+                <artifactId>bcprov-jdk15</artifactId>
+                <version>${bouncycastle.version}</version>
             </dependency>
 
         </dependencies>
