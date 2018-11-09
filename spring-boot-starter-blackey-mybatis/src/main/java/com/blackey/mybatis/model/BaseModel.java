@@ -1,5 +1,7 @@
 package com.blackey.mybatis.model;
 
+import com.baomidou.mybatisplus.annotation.FieldFill;
+import com.baomidou.mybatisplus.annotation.TableField;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.extension.activerecord.Model;
@@ -21,13 +23,18 @@ public abstract class BaseModel<T extends Model> extends Model<T> {
     private String id;
 
     @TableLogic
+    @TableField(fill = FieldFill.INSERT)
     private Integer isDeleted;
 
+    @TableField(fill = FieldFill.INSERT)
     private Date createdDate;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private Date updatedDate;
 
+    @TableField(fill = FieldFill.INSERT)
     private String createdBy;
 
+    @TableField(fill = FieldFill.INSERT_UPDATE)
     private String updatedBy;
 }
