@@ -1,5 +1,6 @@
 package com.blackey.mybatis.config;
 
+import com.baomidou.mybatisplus.extension.injector.LogicSqlInjector;
 import com.baomidou.mybatisplus.extension.plugins.PaginationInterceptor;
 import com.baomidou.mybatisplus.extension.plugins.PerformanceInterceptor;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
@@ -34,5 +35,14 @@ public class MybatisPlusAutoConfiguration {
          */
         performanceInterceptor.setFormat(true);
         return performanceInterceptor;
+    }
+
+    /**
+     * 逻辑删除injector
+     * @return
+     */
+    @Bean
+    public LogicSqlInjector logicSqlInjector(){
+        return new LogicSqlInjector();
     }
 }
