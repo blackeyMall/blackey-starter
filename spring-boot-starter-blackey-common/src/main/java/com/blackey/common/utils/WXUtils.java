@@ -77,4 +77,30 @@ public class WXUtils {
         return decodeJSON;
     }
 
+    public static String decryptWxMobile(String encryptedData,String session_key,String iv){
+        Map map = new HashMap();
+        try {
+            byte[] resultByte  = decrypt(Base64.decodeBase64(encryptedData),
+                    Base64.decodeBase64(session_key),
+                    Base64.decodeBase64(iv));
+            if(null != resultByte && resultByte.length > 0){
+                String mobile = new String(resultByte, "UTF-8");
+                map.put("status", "1");
+                map.put("msg", "解密成功");
+                map.put("mobile", mobile);
+            }else{
+                map.put("status", "0");
+                map.put("msg", "解密失败");
+            }
+        }catch (InvalidAlgorithmParameterException e) {
+            e.printStackTrace();
+        } catch (UnsupportedEncodingException e) {
+            e.printStackTrace();
+        }
+        Gson gson = new Gson();
+        String decodeJSON = gson.toJson(map);
+        System.out.println(decodeJSON);
+        return decodeJSON;
+    }
+
 }
