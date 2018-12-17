@@ -15,6 +15,7 @@
         <module>spring-boot-starter-blackey-redis</module>
         <module>spring-boot-starter-blackey-wx</module>
         <module>spring-boot-starter-blackey-swagger</module>
+        <module>spring-boot-starter-blackey-email</module>
     </modules>
     <packaging>pom</packaging>
     <description>自定义spring boot starter</description>
