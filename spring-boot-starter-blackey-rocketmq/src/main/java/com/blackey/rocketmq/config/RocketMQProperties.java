@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.blackey.rocketmq;
+package com.blackey.rocketmq.config;
 
 import lombok.Data;
 import org.springframework.boot.context.properties.ConfigurationProperties;

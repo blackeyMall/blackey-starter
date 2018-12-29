@@ -17,6 +17,7 @@
         <module>spring-boot-starter-blackey-swagger</module>
         <module>spring-boot-starter-blackey-shiro</module>
         <module>spring-boot-starter-blackey-email</module>
+        <module>spring-boot-starter-blackey-rocketmq</module>
     </modules>
     <packaging>pom</packaging>
     <description>自定义spring boot starter</description>

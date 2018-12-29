@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.qianmi.ms.starter.rocketmq.enums;
+package com.blackey.rocketmq.enums;
 
 /**
  * Consume Mode Created by aqlu on 2017/9/28.

@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.qianmi.ms.starter.rocketmq.core;
+package com.blackey.rocketmq.core;
 
 import org.springframework.beans.factory.DisposableBean;
 

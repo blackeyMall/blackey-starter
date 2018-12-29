@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.blackey.rocketmq;
+package com.blackey.rocketmq.config;
 
 import com.blackey.rocketmq.annotation.RocketMQMessageListener;
 import com.blackey.rocketmq.core.DefaultRocketMQListenerContainer;
@@ -53,6 +53,7 @@ import java.util.Objects;
 import java.util.concurrent.atomic.AtomicLong;
 
 import static com.blackey.rocketmq.core.DefaultRocketMQListenerContainerConstants.*;
+
 /**
  * RocketMqAutoConfiguration Created by aqlu on 2017/9/27.
  */

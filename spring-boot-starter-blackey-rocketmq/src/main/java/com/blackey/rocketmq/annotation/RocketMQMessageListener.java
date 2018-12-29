@@ -15,10 +15,11 @@
  * limitations under the License.
  */
 
-package com.qianmi.ms.starter.rocketmq.annotation;
+package com.blackey.rocketmq.annotation;
 
-import com.qianmi.ms.starter.rocketmq.enums.ConsumeMode;
-import com.qianmi.ms.starter.rocketmq.enums.SelectorType;
+
+import com.blackey.rocketmq.enums.ConsumeMode;
+import com.blackey.rocketmq.enums.SelectorType;
 import org.apache.rocketmq.client.consumer.DefaultMQPushConsumer;
 import org.apache.rocketmq.common.filter.ExpressionType;
 import org.apache.rocketmq.common.protocol.heartbeat.MessageModel;

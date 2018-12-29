@@ -15,7 +15,7 @@
  * limitations under the License.
  */
 
-package com.qianmi.ms.starter.rocketmq.enums;
+package com.blackey.rocketmq.enums;
 
 import org.apache.rocketmq.common.filter.ExpressionType;
 

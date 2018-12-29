@@ -15,11 +15,11 @@
  * limitations under the License.
  */
 
-package com.qianmi.ms.starter.rocketmq.core;
+package com.blackey.rocketmq.core;
 
+import com.blackey.rocketmq.enums.ConsumeMode;
+import com.blackey.rocketmq.enums.SelectorType;
 import com.fasterxml.jackson.databind.ObjectMapper;
-import com.qianmi.ms.starter.rocketmq.enums.ConsumeMode;
-import com.qianmi.ms.starter.rocketmq.enums.SelectorType;
 import lombok.Getter;
 import lombok.Setter;
 import lombok.extern.slf4j.Slf4j;
