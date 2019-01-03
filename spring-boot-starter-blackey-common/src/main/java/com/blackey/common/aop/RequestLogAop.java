@@ -4,6 +4,7 @@ import cn.hutool.core.util.NetUtil;
 import com.alibaba.fastjson.JSON;
 import com.blackey.common.result.Result;
 import com.blackey.common.utils.DesensitizedUtils;
+import com.google.gson.Gson;
 import org.apache.commons.lang3.StringUtils;
 import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.AfterReturning;
@@ -12,7 +13,9 @@ import org.aspectj.lang.annotation.Before;
 import org.aspectj.lang.annotation.Pointcut;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.slf4j.MDC;
 import org.springframework.core.LocalVariableTableParameterNameDiscoverer;
+import org.springframework.http.HttpMethod;
 import org.springframework.validation.BeanPropertyBindingResult;
 import org.springframework.web.context.request.RequestContextHolder;
 import org.springframework.web.context.request.ServletRequestAttributes;
@@ -20,9 +23,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 /**
  * 请求参数日志aop
@@ -35,6 +36,8 @@ import java.util.Map;
 @Aspect
 public class RequestLogAop {
 
+    private static final String TRACE_ID="traceId",START_TIME="START_TIME";
+
     private static final Logger LOGGER = LoggerFactory.getLogger(RequestLogAop.class);
 
     private static final LocalVariableTableParameterNameDiscoverer parameterNameDiscoverer = new LocalVariableTableParameterNameDiscoverer();
@@ -45,61 +48,64 @@ public class RequestLogAop {
             "execution(public * com.blackey..controller..*.*(..))")
     public void webLog(){}
 
+    @Pointcut("@within(com.blackey.common.annotation.BlackeyHttpLog)")
+    public void requestTypeLog() { }
+
     @Before("webLog()")
+//    @Before("requestTypeLog()")
     public void doBefore(JoinPoint joinPoint){
-
-        startTime.set(System.currentTimeMillis());
-
-        // 接收到请求，记录请求内容
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
-        HttpServletRequest request = attributes.getRequest();
-
+        HttpServletRequest request = Objects.requireNonNull(attributes).getRequest();
         if(request.getRequestURL().equals("/sys/login")){
             return;
         }
-
-        String method = request.getMethod();
-
-        // 记录下请求内容
-        LOGGER.info("URL : " + request.getRequestURL().toString());
-        LOGGER.info("HTTP_METHOD : " + method);
-        LOGGER.info("IP : " +  NetUtil.getIpByHost(NetUtil.getLocalhostStr()));
-        LOGGER.info("CLASS_METHOD : " + joinPoint.getSignature().getDeclaringTypeName() + "." + joinPoint.getSignature().getName());
-
         String paramStr;
-        if ("POST".equalsIgnoreCase(method)){
+        if (HttpMethod.POST.matches(request.getMethod())){
             Object[] paramsArray = joinPoint.getArgs();
             paramStr = argsArrayToString(paramsArray);
-
         }else {
             Map<String,String> returnMap = new HashMap<>();
             String getParams = request.getQueryString();
             paramStr = JSON.toJSONString(parseJson(returnMap,getParams));
         }
-
-
-        LOGGER.info("REQUEST ARGS ---: " + paramStr);
-
+        String traceId= UUID.randomUUID().toString();
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\n")
+                .append("TRACE_ID : ").append(traceId).append("\n")
+                .append("REQ_HOST : ").append(request.getHeader("Host")).append("\n")
+                .append("REQ_URI : ").append(request.getRequestURI()).append("\n")
+                .append("HTTP_METHOD : ").append(request.getMethod()).append("\n")
+                .append("CLASS_METHOD : ").append(joinPoint.getSignature().getDeclaringTypeName()).append(".").append(joinPoint.getSignature().getName()).append("\n")
+                .append("REQ_ARGS : ").append(paramStr).append("\n");
+        LOGGER.info(sb.toString());
+        MDC.put(TRACE_ID,traceId);
+        MDC.put(START_TIME,String.valueOf(System.currentTimeMillis()));
     }
 
-    @AfterReturning(returning = "ret", pointcut = "webLog()")
-    public void doAfterReturning(Object ret){
-        // 处理完请求，返回内容
-        if(null != ret){
-            if(ret instanceof Result){
-                if(null == ((Result) ret).getData()){
-                    LOGGER.info("RESPONSE ARGS : " + JSON.toJSONString(ret));
+    @AfterReturning(returning = "result", pointcut = "webLog()")
+//    @AfterReturning(returning = "result", pointcut = "requestTypeLog()")
+    public void doAfterReturning(Object result){
+        String traceId = MDC.get(TRACE_ID);
+        Long startTime = Long.valueOf(MDC.get(START_TIME));
+        String resultJson = null;
+        if(Objects.nonNull(result)){
+            if(result instanceof Result){
+                if(Objects.isNull(((Result) result).getData())){
+                    resultJson = JSON.toJSONString(result);
                 }else {
-                    LOGGER.info("RESPONSE ARGS : " + DesensitizedUtils.getJson(ret));
+                    resultJson = DesensitizedUtils.getJson(result);
                 }
             }
-        }else{
-            LOGGER.info("RESPONSE : " + null);
         }
-        LOGGER.info("SPEND TIME : " + (System.currentTimeMillis() - startTime.get()));
+        StringBuilder sb = new StringBuilder();
+        sb.append("\n\n")
+                .append("TRACE_ID : ").append(traceId).append("\n")
+                .append("EXECUTE_TIME : ").append(System.currentTimeMillis() - startTime).append("ms").append("\n")
+                .append("RET_JSON : ").append(resultJson);
 
+        LOGGER.info(sb.toString());
+        MDC.clear();
     }
-
 
     /**
      * 是否jdk类型变量
