@@ -57,6 +57,11 @@ public enum ResultCodeEnum implements ResultCode {
      */
     WXMPTOKEN_ERROR(406, "拉取当前用户信息失败，请确保在微信端使用。"),
 
+    /**
+     * 权限不足的返回值
+     */
+    PERMISSION_ERROR(403, "用户权限不足，请联系管理员"),
+
 
     ;
     private int code;
