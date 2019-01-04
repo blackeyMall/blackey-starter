@@ -61,6 +61,10 @@ public enum ResultCodeEnum implements ResultCode {
      * 权限不足的返回值
      */
     PERMISSION_ERROR(403, "用户权限不足，请联系管理员"),
+    /**
+     * 权限不足的返回值
+     */
+    TOKEN_TIMEOUT_ERROR(401, "TOKEN失效，请重新登陆")
 
 
     ;
