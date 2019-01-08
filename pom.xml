@@ -16,6 +16,7 @@
         <module>spring-boot-starter-blackey-wx</module>
         <module>spring-boot-starter-blackey-swagger</module>
         <module>spring-boot-starter-blackey-email</module>
+        <module>spring-boot-starter-blackey-auth</module>
     </modules>
     <packaging>pom</packaging>
     <description>自定义spring boot starter</description>
@@ -49,6 +50,8 @@
         <disruptor.version>3.3.7</disruptor.version>
         <wx.version>3.2.0</wx.version>
         <bouncycastle.version>140</bouncycastle.version>
+        <java-jwt.version>3.3.0</java-jwt.version>
+        <jjwt.version>0.9.0</jjwt.version>
     </properties>
 
     <dependencyManagement>
@@ -205,6 +208,16 @@
                 <groupId>bouncycastle</groupId>
                 <artifactId>bcprov-jdk15</artifactId>
                 <version>${bouncycastle.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>io.jsonwebtoken</groupId>
+                <artifactId>jjwt</artifactId>
+                <version>${jjwt.version}</version>
+            </dependency>
+            <dependency>
+                <groupId>com.auth0</groupId>
+                <artifactId>java-jwt</artifactId>
+                <version>${java-jwt.version}</version>
             </dependency>
 
         </dependencies>
