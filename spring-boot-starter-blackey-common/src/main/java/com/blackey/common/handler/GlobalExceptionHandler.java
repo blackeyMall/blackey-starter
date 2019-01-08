@@ -2,6 +2,7 @@ package com.blackey.common.handler;
 
 import com.blackey.common.exception.BaseException;
 import com.blackey.common.exception.ParamValidException;
+import com.blackey.common.mdc.MDCUtils;
 import com.blackey.common.result.FieldValidError;
 import com.blackey.common.result.Result;
 import com.blackey.common.result.ResultCodeEnum;
@@ -35,7 +36,7 @@ import java.util.stream.Collectors;
 @ControllerAdvice
 public class GlobalExceptionHandler {
 
-    private static final Logger LOGGER = LoggerFactory.getLogger(GlobalExceptionHandler.class);
+    private static final Logger log = LoggerFactory.getLogger(GlobalExceptionHandler.class);
     /**
      * | 分隔符
      */
@@ -50,8 +51,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = Exception.class)
     public Result otherExceptionHandler(HttpServletRequest req, Exception e){
-        LOGGER.error("ERROR ! GET REQUEST URL:"+req.getRequestURL());
-        LOGGER.error("error message :"+e.getMessage(),e);
+        log.error(MDCUtils.MDC_INFO(),e);
         return new Result(ResultCodeEnum.SYSTEM_ERROR);
     }
 
@@ -64,9 +64,8 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = BaseException.class)
     public Result baseExceptionHandler(HttpServletRequest req, BaseException e){
-        LOGGER.error("ERROR ! GET REQUEST URL:"+req.getRequestURL());
-        LOGGER.error("error message :"+e.getMessage(),e);
-        return new Result(e.getErrorCode(),e.getMessage(),e.getMessage());
+        log.error(MDCUtils.MDC_INFO(),e);
+        return new Result<>(e.getErrorCode(),e.getMessage(),e.getMessage());
     }
 
     /**
@@ -78,8 +77,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = ParamValidException.class)
     public Result paramValidExceptionHandler(HttpServletRequest req, ParamValidException e){
-        LOGGER.error("ERROR ! GET REQUEST URL:"+req.getRequestURL());
-        LOGGER.error("error message :"+e.getMessage(),e);
+        log.error(MDCUtils.MDC_INFO(),e);
         List<FieldValidError> fieldValidErrors = e.getFieldValidErrorList();
         return new Result<>(ResultCodeEnum.INVALID_REQUEST,fieldValidErrors);
     }
@@ -94,8 +92,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ExceptionHandler(value = MethodArgumentNotValidException.class)
     public Result beanValidExceptionHandler(HttpServletRequest req, MethodArgumentNotValidException e){
-        LOGGER.error("ERROR ! GET REQUEST URL:"+req.getRequestURL());
-        LOGGER.error("error message :"+e.getMessage(),e);
+        log.error(MDCUtils.MDC_INFO(),e);
         BeanPropertyBindingResult result = (BeanPropertyBindingResult)e.getBindingResult();
         if(result.hasErrors()){
             List<FieldError> fieldErrors = result.getFieldErrors();
@@ -120,9 +117,7 @@ public class GlobalExceptionHandler {
     @ResponseBody
     @ResponseStatus(HttpStatus.BAD_REQUEST)
     public Result paramValidExceptionHandle(HttpServletRequest req, ValidationException exception) {
-        LOGGER.error("ERROR ! GET REQUEST URL:"+req.getRequestURL());
-
-        LOGGER.error("error message :"+exception.getMessage(),exception);
+        log.error(MDCUtils.MDC_INFO(),exception);
         if(exception instanceof ConstraintViolationException){
             ConstraintViolationException exs = (ConstraintViolationException) exception;
             Set<ConstraintViolation<?>> violations = exs.getConstraintViolations();
