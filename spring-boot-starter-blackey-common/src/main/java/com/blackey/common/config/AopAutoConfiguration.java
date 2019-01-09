@@ -25,10 +25,10 @@ public class AopAutoConfiguration {
         return new ValidateParamAop();
     }
 
-    @Bean
-    @ConditionalOnProperty(value = {"spring.logaop.enabled"},matchIfMissing = true)
-    public RequestLogAop getRequestLogAop(){
-        LOGGER.info("-----------init RequestLogAop------");
-        return new RequestLogAop();
-    }
+//    @Bean
+//    @ConditionalOnProperty(value = {"spring.logaop.enabled"},matchIfMissing = true)
+//    public RequestLogAop getRequestLogAop(){
+//        LOGGER.info("-----------init RequestLogAop------");
+//        return new RequestLogAop();
+//    }
 }
